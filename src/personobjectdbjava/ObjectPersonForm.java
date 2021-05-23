@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package personobjectdbjava;
+import conexionDB.Conectar;
 import java.util.List;
 import javax.management.StringValueExp;
 import javax.persistence.EntityManager;
@@ -30,14 +31,17 @@ public class ObjectPersonForm extends javax.swing.JFrame {
         emf = null;
         em = null;
         emf = Persistence.createEntityManagerFactory("C:/base/objectPersona.odb");
-        em = emf.createEntityManager(); 
+        em = emf.createEntityManager();
+        
         
         TextPrompt placeholder1 = new TextPrompt("Ingrese el Id del Objeto Persona", personaId);
         TextPrompt placeholder2 = new TextPrompt("Ingrese el Nombre de la Persona", personaNombre);
         TextPrompt placeholder3 = new TextPrompt("Ingrese el Apellido de la Persona", personaApellido);
         TextPrompt placeholder4 = new TextPrompt("Ingrese la Edad de la Persona", personaEdad);
         TextPrompt placeholder5 = new TextPrompt("Ingrese el Telefono de la Persona", personaTelefono);
-
+        
+        eliminarPersona.setEnabled(false);
+        actualizarpersona.setEnabled(false);
         listarPersonas();
     }
 
@@ -50,26 +54,42 @@ public class ObjectPersonForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablePersona = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        GuardarPersona = new javax.swing.JButton();
+        eliminarPersona = new javax.swing.JButton();
+        actualizarpersona = new javax.swing.JButton();
+        vaciarCampos = new javax.swing.JButton();
         personaId = new javax.swing.JTextField();
         personaNombre = new javax.swing.JTextField();
         personaApellido = new javax.swing.JTextField();
         personaEdad = new javax.swing.JTextField();
         personaTelefono = new javax.swing.JTextField();
-        GuardarPersona = new javax.swing.JButton();
-        eliminarPersona = new javax.swing.JButton();
-        actualizarpersona = new javax.swing.JButton();
-        vaciarCampos = new javax.swing.JButton();
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel2.setBackground(new java.awt.Color(255, 153, 153));
         jPanel2.setForeground(new java.awt.Color(204, 204, 255));
 
+        jLabel1.setBackground(new java.awt.Color(255, 153, 153));
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("FORMULARIO DE PERSONAS CON ORIENTACION A OBJETOS.");
 
@@ -82,10 +102,12 @@ public class ObjectPersonForm extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel1.setBackground(new java.awt.Color(255, 102, 0));
 
         tablePersona.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -102,14 +124,29 @@ public class ObjectPersonForm extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tablePersona);
 
-        personaNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                personaNombreActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
 
         GuardarPersona.setBackground(new java.awt.Color(102, 255, 102));
-        GuardarPersona.setText("Guardar Persona");
+        GuardarPersona.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        GuardarPersona.setForeground(new java.awt.Color(102, 102, 102));
+        GuardarPersona.setText("GUARDAR");
         GuardarPersona.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 GuardarPersonaMouseClicked(evt);
@@ -122,7 +159,9 @@ public class ObjectPersonForm extends javax.swing.JFrame {
         });
 
         eliminarPersona.setBackground(new java.awt.Color(255, 0, 0));
-        eliminarPersona.setText("Eliminar");
+        eliminarPersona.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        eliminarPersona.setForeground(new java.awt.Color(102, 102, 102));
+        eliminarPersona.setText("ELIMINAR");
         eliminarPersona.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 eliminarPersonaMouseClicked(evt);
@@ -135,7 +174,9 @@ public class ObjectPersonForm extends javax.swing.JFrame {
         });
 
         actualizarpersona.setBackground(new java.awt.Color(255, 255, 102));
-        actualizarpersona.setText("Actualizar");
+        actualizarpersona.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        actualizarpersona.setForeground(new java.awt.Color(102, 102, 102));
+        actualizarpersona.setText("ACTUALIZAR");
         actualizarpersona.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 actualizarpersonaMouseClicked(evt);
@@ -148,7 +189,9 @@ public class ObjectPersonForm extends javax.swing.JFrame {
         });
 
         vaciarCampos.setBackground(new java.awt.Color(51, 153, 255));
-        vaciarCampos.setText("Vaciar");
+        vaciarCampos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        vaciarCampos.setForeground(new java.awt.Color(102, 102, 102));
+        vaciarCampos.setText("VACIAR");
         vaciarCampos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 vaciarCamposMouseClicked(evt);
@@ -160,55 +203,70 @@ public class ObjectPersonForm extends javax.swing.JFrame {
             }
         });
 
+        personaNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                personaNombreActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(personaEdad)
+            .addComponent(personaTelefono)
+            .addComponent(GuardarPersona, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(personaNombre)
+            .addComponent(personaApellido)
+            .addComponent(eliminarPersona, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(vaciarCampos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(actualizarpersona, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+            .addComponent(personaId)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(personaId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(personaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(personaApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(personaEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(personaTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(GuardarPersona, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(eliminarPersona, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(actualizarpersona, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(vaciarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(personaEdad)
-                        .addComponent(personaId, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(personaNombre, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(personaApellido, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(personaTelefono)
-                        .addComponent(GuardarPersona, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(eliminarPersona, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(actualizarpersona, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(vaciarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(personaId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(personaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(personaApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(personaEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(personaTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(GuardarPersona, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(eliminarPersona, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(actualizarpersona, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(vaciarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -228,14 +286,16 @@ public class ObjectPersonForm extends javax.swing.JFrame {
             em.getTransaction().begin();
             em.persist(objectPersona);
             em.getTransaction().commit();
-
+            
             //Vaciar los campos
             personaId.setText("");
             personaNombre.setText("");
             personaApellido.setText("");
             personaEdad.setText("");
             personaTelefono.setText("");
-
+            
+            JOptionPane.showMessageDialog(rootPane, "Guardado Exitoso");
+            
             listarPersonas();
 
         } catch (Exception e) {
@@ -264,12 +324,21 @@ public class ObjectPersonForm extends javax.swing.JFrame {
             em.remove(objectPersona);
             em.getTransaction().commit();
             
+            JOptionPane.showMessageDialog(rootPane, "Borrado Exitoso");
+
+            
             personaId.setText("");
             personaNombre.setText(""); 
             personaApellido.setText("");
             personaEdad.setText("");
             personaTelefono.setText("");
-        
+            
+            eliminarPersona.setEnabled(false);
+            actualizarpersona.setEnabled(false);
+            GuardarPersona.setEnabled(true);
+            personaId.setEnabled(true);
+
+            
             listarPersonas();
         } catch (Exception e) {
         }
@@ -290,6 +359,8 @@ public class ObjectPersonForm extends javax.swing.JFrame {
             //System.out.println(id.getClass().getSimpleName());
             
             ObjectPersona objectPersona = em.find(ObjectPersona.class, id);
+            //deshabilitar la opcion de cambiar id
+            personaId.setEnabled(false);
 
             String idpersona = String.valueOf(objectPersona.getIdPersona());
             String nombrepersona = objectPersona.getNombre();
@@ -303,6 +374,10 @@ public class ObjectPersonForm extends javax.swing.JFrame {
             personaEdad.setText(edadpersona);
             personaTelefono.setText(telefonopersona);
 
+            eliminarPersona.setEnabled(true);
+            actualizarpersona.setEnabled(true);
+            GuardarPersona.setEnabled(false);
+            
 
         } catch (Exception e) {
         }
@@ -315,10 +390,10 @@ public class ObjectPersonForm extends javax.swing.JFrame {
             Object id = tablePersona.getValueAt(fila, 0);
             //verificando que lo que se envia es un entero
             //System.out.println(id.getClass().getSimpleName());
-
+            
             ObjectPersona objectPersona = em.find(ObjectPersona.class, id);
-
-            int idpersona = Integer.valueOf(personaId.getText());
+            
+            int idpersona = Integer.valueOf(personaId.getText());      
             String nombre = personaNombre.getText();
             String apellido = personaApellido.getText();
             int edad = Integer.valueOf(personaEdad.getText());
@@ -333,6 +408,9 @@ public class ObjectPersonForm extends javax.swing.JFrame {
             em.getTransaction().begin();
             em.persist(objectPersona);
             em.getTransaction().commit();
+            
+            JOptionPane.showMessageDialog(rootPane, "Actualizado Exitoso");
+
 
             personaId.setText("");
             personaNombre.setText(""); 
@@ -340,6 +418,11 @@ public class ObjectPersonForm extends javax.swing.JFrame {
             personaEdad.setText("");
             personaTelefono.setText("");
             
+            eliminarPersona.setEnabled(false);
+            actualizarpersona.setEnabled(false);
+            GuardarPersona.setEnabled(true);
+            personaId.setEnabled(true);
+
             listarPersonas();
 
 
@@ -363,6 +446,11 @@ public class ObjectPersonForm extends javax.swing.JFrame {
         personaApellido.setText("");
         personaEdad.setText("");
         personaTelefono.setText("");
+
+        eliminarPersona.setEnabled(false);
+        actualizarpersona.setEnabled(false);
+        GuardarPersona.setEnabled(true); 
+        personaId.setEnabled(true);
 
         listarPersonas();
         
@@ -422,7 +510,10 @@ public class ObjectPersonForm extends javax.swing.JFrame {
     private javax.swing.JButton actualizarpersona;
     private javax.swing.JButton eliminarPersona;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField personaApellido;
     private javax.swing.JTextField personaEdad;
