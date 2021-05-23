@@ -31,6 +31,13 @@ public class ObjectPersonForm extends javax.swing.JFrame {
         em = null;
         emf = Persistence.createEntityManagerFactory("C:/base/objectPersona.odb");
         em = emf.createEntityManager(); 
+        
+        TextPrompt placeholder1 = new TextPrompt("Ingrese el Id del Objeto Persona", personaId);
+        TextPrompt placeholder2 = new TextPrompt("Ingrese el Nombre de la Persona", personaNombre);
+        TextPrompt placeholder3 = new TextPrompt("Ingrese el Apellido de la Persona", personaApellido);
+        TextPrompt placeholder4 = new TextPrompt("Ingrese la Edad de la Persona", personaEdad);
+        TextPrompt placeholder5 = new TextPrompt("Ingrese el Telefono de la Persona", personaTelefono);
+
         listarPersonas();
     }
 
